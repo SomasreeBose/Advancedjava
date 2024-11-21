@@ -1,0 +1,24 @@
+1.
+Customer Table:
+create table Customer(customer_id int primary key,first_name varchar(20),Last_name varchar(30));
+
+Orders Table:
+
+create table Orders(order_id int primary key,order_date date,Total_amount int,customer_id int,foreign key(customer_id) references Customer(customer_id));
+
+Inner Join:
+SELECT customers.first_name, customers.last_name, orders.order_date, orders.total_amount
+FROM customers
+INNER JOIN orders ON customers.customer_id = orders.customer_id;
+
+2.
+Department Table:
+create table Department(department_id int primary key,department_name varchar(30));
+
+Employees Table:
+Create table Employees(employee_id int primary key,first_name varchar(30),last_name varchar(30),department_id int,foreign key(department_id) references Department(department_id));
+
+Left join:
+SELECT departments.department_name, employees.first_name, employees.last_name
+FROM departments
+LEFT JOIN employees ON departments.department_id = employees.department_id;

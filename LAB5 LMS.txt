@@ -1,0 +1,90 @@
+Q1
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class DatabaseConnectivity {
+    public static void main(String[] args) {
+        
+        String jdbcURL = "jdbc:mysql://localhost:3306/Country";
+        String username = "root"; 
+        String password = "12345";
+
+        
+        String query = "SELECT * FROM new_country";
+
+        
+        try (
+            
+            Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+        ) {
+            System.out.println("ID\tName\t\tPopulation\tGDP");
+            System.out.println("-----------------------------------------");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                long population = resultSet.getLong("population");
+                double gdp = resultSet.getDouble("gdp");
+                System.out.printf("%d\t%s\t\t%d\t\t%.2f%n", id, name, population, gdp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+CREATE DATABASE Country;
+USE Country;
+
+CREATE TABLE countries (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    population BIGINT,
+    continent VARCHAR(50)
+);
+
+INSERT INTO countries (name, population, continent)
+VALUES
+('India', 1400000000, 'Asia'),
+('USA', 331000000, 'North America'),
+('Germany', 83000000, 'Europe');
+
+
+
+
+
+
+
+Q2
+CREATE DATABASE Country;
+USE Country;
+
+CREATE TABLE countries (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    population BIGINT,
+    continent VARCHAR(50)
+);
+
+INSERT INTO countries (name, population, continent)
+VALUES
+('India', 1400000000, 'Asia'),
+('USA', 331000000, 'North America'),
+('Germany', 83000000, 'Europe');
+
+
+SHOW DATABASES;
+
+ALTER TABLE countries RENAME TO new_country;
+
+ALTER TABLE new_country DROP COLUMN continent;
+
+ALTER TABLE new_country ADD COLUMN gdp DOUBLE;
+
+DESCRIBE new_country;
